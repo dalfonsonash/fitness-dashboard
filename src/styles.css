@@ -265,26 +265,36 @@ li {
 @media (max-width: 520px) {
   .wallpaper {
     background:
-      linear-gradient(rgba(15, 23, 42, .08), rgba(15, 23, 42, .5)),
+      linear-gradient(rgba(15, 23, 42, .02), rgba(15, 23, 42, .34)),
       url("/wallpaper-mobile.png") center center / cover no-repeat,
       radial-gradient(circle at top, rgba(56,189,248,.16), transparent 38%),
       #0f172a;
   }
 
   .card {
-    background: rgba(17, 24, 39, .46);
+    background: rgba(17, 24, 39, .32);
+    border-color: rgba(148, 163, 184, .28);
+    backdrop-filter: blur(5px);
   }
 
   .hero {
-    background: linear-gradient(135deg, rgba(14,165,233,.2), rgba(17,24,39,.44));
+    background: linear-gradient(135deg, rgba(14,165,233,.2), rgba(17,24,39,.3));
   }
 
   .metric {
-    background: rgba(15, 23, 42, .42);
+    background: rgba(15, 23, 42, .24);
   }
 
   nav {
-    background: rgba(15, 23, 42, .68);
+    background: rgba(15, 23, 42, .54);
+  }
+
+  .tabs button, nav button, button.secondary, .icon {
+    background: rgba(31, 41, 55, .72);
+  }
+
+  input, select {
+    background: rgba(15, 23, 42, .42);
   }
 
   .logrow {
