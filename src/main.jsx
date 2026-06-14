@@ -158,6 +158,76 @@ const FOOD_LIBRARY = [
       { label: "2 cups vegetables", calories: 35, protein: 2, carbs: 7, fat: 0 },
       { label: "2 cups with vinaigrette", calories: 155, protein: 2, carbs: 9, fat: 12 }
     ]
+  },
+  {
+    name: "Peanut Butter",
+    servings: [
+      { label: "1 tbsp", calories: 95, protein: 4, carbs: 3, fat: 8 },
+      { label: "2 tbsp", calories: 190, protein: 8, carbs: 7, fat: 16 }
+    ]
+  },
+  {
+    name: "Blackberries",
+    servings: [
+      { label: "1/2 cup", calories: 31, protein: 1, carbs: 7, fat: 0 },
+      { label: "1 cup", calories: 62, protein: 2, carbs: 14, fat: 1 }
+    ]
+  },
+  {
+    name: "Unsweetened Almond Milk",
+    servings: [
+      { label: "1/2 cup", calories: 15, protein: 1, carbs: 1, fat: 1 },
+      { label: "1 cup", calories: 30, protein: 1, carbs: 1, fat: 3 }
+    ]
+  },
+  {
+    name: "Blueberries",
+    servings: [
+      { label: "1/2 cup", calories: 42, protein: 1, carbs: 11, fat: 0 },
+      { label: "1 cup", calories: 84, protein: 1, carbs: 21, fat: 0 }
+    ]
+  },
+  {
+    name: "Strawberries",
+    servings: [
+      { label: "1/2 cup sliced", calories: 27, protein: 1, carbs: 6, fat: 0 },
+      { label: "1 cup sliced", calories: 53, protein: 1, carbs: 13, fat: 0 }
+    ]
+  },
+  {
+    name: "Egg Whites",
+    servings: [
+      { label: "3 large whites", calories: 51, protein: 11, carbs: 1, fat: 0 },
+      { label: "1 cup", calories: 126, protein: 27, carbs: 2, fat: 0 }
+    ]
+  },
+  {
+    name: "Whole Wheat Toast",
+    servings: [
+      { label: "1 slice", calories: 80, protein: 4, carbs: 14, fat: 1 },
+      { label: "2 slices", calories: 160, protein: 8, carbs: 28, fat: 2 }
+    ]
+  },
+  {
+    name: "Sweet Potato",
+    servings: [
+      { label: "1 medium", calories: 112, protein: 2, carbs: 26, fat: 0 },
+      { label: "1 cup mashed", calories: 249, protein: 5, carbs: 58, fat: 0 }
+    ]
+  },
+  {
+    name: "Tuna",
+    servings: [
+      { label: "1 can in water", calories: 120, protein: 26, carbs: 0, fat: 1 },
+      { label: "4 oz drained", calories: 132, protein: 29, carbs: 0, fat: 1 }
+    ]
+  },
+  {
+    name: "Protein Bar",
+    servings: [
+      { label: "1 bar", calories: 220, protein: 20, carbs: 24, fat: 7 },
+      { label: "1/2 bar", calories: 110, protein: 10, carbs: 12, fat: 4 }
+    ]
   }
 ];
 
@@ -233,8 +303,8 @@ function App() {
   return (
     <div className="app">
       <header>
-        <h1>David Fitness Dashboard</h1>
-        <p>Master’s Athlete Physique Program</p>
+        <h1>Body Forge</h1>
+        <p>Training, nutrition, and progress in one place.</p>
       </header>
 
       <main>

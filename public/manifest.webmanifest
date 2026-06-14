@@ -1,8 +1,8 @@
 {
-  "name": "David Fitness Dashboard",
-  "short_name": "Fitness",
+  "name": "Body Forge",
+  "short_name": "Body Forge",
   "id": "/",
-  "description": "Workout, macro, and progress dashboard for David.",
+  "description": "Training, nutrition, and progress tracking in one place.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

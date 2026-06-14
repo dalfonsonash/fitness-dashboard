@@ -1,10 +1,10 @@
-# Body Forge Dashboard — Windows-Friendly Web App
+# Body Forge Dashboard - Windows-Friendly Web App
 
-This is a Progressive Web App style fitness dashboard you can build and run from your Dell Inspiron 14 on Windows 11.
+This is a Progressive Web App style fitness dashboard for workouts, nutrition, macros, and progress tracking.
 
 ## What it does
 
-- Workout dashboard for your 12-week Master's Athlete Physique Program
+- Workout dashboard for a structured physique program
 - Gym exercise list by day
 - Weight and rep logging
 - Wrist-friendly exercise notes
@@ -80,7 +80,7 @@ This first version stores data locally on the device/browser. That means data en
 
 - Cloud sync with Supabase or Firebase
 - User login
-- Food database
+- Expanded food database
 - Barcode scanner
 - Apple Health / HealthKit integration
 - Charts for strength and waist reduction
