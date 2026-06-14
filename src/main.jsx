@@ -304,6 +304,7 @@ function App() {
 
   return (
     <div className="app">
+      <div className="wallpaper" aria-hidden="true"></div>
       <header>
         <h1>Body Forge</h1>
         <p>Training, nutrition, and progress in one place.</p>
