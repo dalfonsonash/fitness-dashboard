@@ -1,4 +1,4 @@
-const CACHE_NAME = "body-forge-v2";
+const CACHE_NAME = "body-forge-v3";
 const APP_SHELL = ["/", "/manifest.webmanifest", "/icon.svg", "/icon-180.png", "/icon-192.png", "/icon-512.png", "/favicon.png"];
 
 self.addEventListener("install", event => {
@@ -22,6 +22,19 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
+
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put("/", copy));
+          return response;
+        })
+        .catch(() => caches.match("/") || caches.match(event.request))
+    );
+    return;
+  }
 
   event.respondWith(
     caches.match(event.request).then(cached => {
