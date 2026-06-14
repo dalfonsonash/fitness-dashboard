@@ -1,5 +1,5 @@
-const CACHE_NAME = "body-forge-v3";
-const APP_SHELL = ["/", "/manifest.webmanifest", "/icon.svg", "/icon-180.png", "/icon-192.png", "/icon-512.png", "/favicon.png"];
+const CACHE_NAME = "body-forge-v4";
+const APP_SHELL = ["/", "/manifest.webmanifest", "/icon.svg", "/icon-180.png", "/icon-192.png", "/icon-512.png", "/favicon.png", "/wallpaper-mobile.png"];
 
 self.addEventListener("install", event => {
   event.waitUntil(
