@@ -1,4 +1,4 @@
-# David Fitness Dashboard — Windows-Friendly Web App
+# Body Forge Dashboard — Windows-Friendly Web App
 
 This is a Progressive Web App style fitness dashboard you can build and run from your Dell Inspiron 14 on Windows 11.
 
