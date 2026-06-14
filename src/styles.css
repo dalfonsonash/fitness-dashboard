@@ -21,12 +21,16 @@ body {
 
 .wallpaper {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100dvh;
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(rgba(15, 23, 42, .28), rgba(15, 23, 42, .76)),
-    url("/icon-512.png") center center / min(104vw, 98vh) no-repeat,
+    linear-gradient(rgba(15, 23, 42, .22), rgba(15, 23, 42, .7)),
+    url("/icon-512.png") center center / cover no-repeat,
     radial-gradient(circle at top, rgba(56,189,248,.16), transparent 38%),
     #0f172a;
 }
@@ -261,10 +265,26 @@ li {
 @media (max-width: 520px) {
   .wallpaper {
     background:
-      linear-gradient(rgba(15, 23, 42, .28), rgba(15, 23, 42, .8)),
-      url("/icon-512.png") center center / min(126vw, 86vh) no-repeat,
+      linear-gradient(rgba(15, 23, 42, .18), rgba(15, 23, 42, .62)),
+      url("/icon-512.png") center center / cover no-repeat,
       radial-gradient(circle at top, rgba(56,189,248,.16), transparent 38%),
       #0f172a;
+  }
+
+  .card {
+    background: rgba(17, 24, 39, .58);
+  }
+
+  .hero {
+    background: linear-gradient(135deg, rgba(14,165,233,.26), rgba(17,24,39,.56));
+  }
+
+  .metric {
+    background: rgba(15, 23, 42, .52);
+  }
+
+  nav {
+    background: rgba(15, 23, 42, .72);
   }
 
   .logrow {
