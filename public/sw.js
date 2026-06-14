@@ -1,5 +1,5 @@
-const CACHE_NAME = "david-fitness-dashboard-v1";
-const APP_SHELL = ["/", "/manifest.webmanifest", "/icon.svg"];
+const CACHE_NAME = "body-forge-v2";
+const APP_SHELL = ["/", "/manifest.webmanifest", "/icon.svg", "/icon-180.png", "/icon-192.png", "/icon-512.png", "/favicon.png"];
 
 self.addEventListener("install", event => {
   event.waitUntil(

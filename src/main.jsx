@@ -278,11 +278,13 @@ function App() {
   const [tab, setTab] = useState("dashboard");
   const [logs, setLogs] = useState(() => load("workoutLogs", []));
   const [foods, setFoods] = useState(() => load("foods", []));
+  const [customFoods, setCustomFoods] = useState(() => load("customFoods", []));
   const [targets, setTargets] = useState(() => load("macroTargets", DEFAULT_TARGETS));
   const [progress, setProgress] = useState(() => load("progressEntries", []));
 
   const setAndSaveLogs = (v) => { setLogs(v); save("workoutLogs", v); };
   const setAndSaveFoods = (v) => { setFoods(v); save("foods", v); };
+  const setAndSaveCustomFoods = (v) => { setCustomFoods(v); save("customFoods", v); };
   const setAndSaveTargets = (v) => { setTargets(v); save("macroTargets", v); };
   const setAndSaveProgress = (v) => { setProgress(v); save("progressEntries", v); };
 
@@ -310,7 +312,7 @@ function App() {
       <main>
         {tab === "dashboard" && <Dashboard logs={logs} totals={totals} remaining={remaining} />}
         {tab === "workouts" && <Workouts logs={logs} setLogs={setAndSaveLogs} />}
-        {tab === "nutrition" && <Nutrition foods={foods} setFoods={setAndSaveFoods} targets={targets} setTargets={setAndSaveTargets} totals={totals} remaining={remaining} />}
+        {tab === "nutrition" && <Nutrition foods={foods} setFoods={setAndSaveFoods} customFoods={customFoods} setCustomFoods={setAndSaveCustomFoods} targets={targets} setTargets={setAndSaveTargets} totals={totals} remaining={remaining} />}
         {tab === "progress" && <Progress progress={progress} setProgress={setAndSaveProgress} logs={logs} />}
       </main>
 
@@ -437,13 +439,23 @@ function ExerciseCard({ workout, exercise, logs, setLogs }) {
   );
 }
 
-function Nutrition({ foods, setFoods, targets, setTargets, totals, remaining }) {
+function Nutrition({ foods, setFoods, customFoods, setCustomFoods, targets, setTargets, totals, remaining }) {
   const [entry, setEntry] = useState({ meal:"Breakfast", food:"", calories:"", protein:"", carbs:"", fat:"" });
   const [selectedFoodId, setSelectedFoodId] = useState("");
   const [selectedServingIndex, setSelectedServingIndex] = useState(0);
+  const [foodSearch, setFoodSearch] = useState("");
   const meals = ["Breakfast", "Lunch", "Dinner", "Snacks"];
   const todayFoods = foods.filter(f => f.date === todayKey());
-  const selectedFood = FOOD_LIBRARY.find(food => food.name === selectedFoodId);
+  const libraryFoods = useMemo(() => [
+    ...FOOD_LIBRARY.map(food => ({ ...food, id: `library:${food.name}`, source: "Built-in" })),
+    ...customFoods.map(food => ({ ...food, id: `custom:${food.id}`, source: "My Foods" }))
+  ], [customFoods]);
+  const filteredLibraryFoods = libraryFoods.filter(food => {
+    const query = foodSearch.trim().toLowerCase();
+    if (!query) return true;
+    return food.name.toLowerCase().includes(query) || food.servings.some(serving => serving.label.toLowerCase().includes(query));
+  });
+  const selectedFood = libraryFoods.find(food => food.id === selectedFoodId);
 
   function addFood() {
     if (!entry.food) return;
@@ -457,11 +469,11 @@ function Nutrition({ foods, setFoods, targets, setTargets, totals, remaining }) 
     setFoods(foods.filter(f => f.id !== id));
   }
 
-  function fillFromLibrary(foodName, servingIndex = 0) {
-    setSelectedFoodId(foodName);
+  function fillFromLibrary(foodId, servingIndex = 0) {
+    setSelectedFoodId(foodId);
     setSelectedServingIndex(servingIndex);
 
-    const food = FOOD_LIBRARY.find(item => item.name === foodName);
+    const food = libraryFoods.find(item => item.id === foodId);
     if (!food) return;
 
     const serving = food.servings[servingIndex] ?? food.servings[0];
@@ -473,6 +485,36 @@ function Nutrition({ foods, setFoods, targets, setTargets, totals, remaining }) 
       carbs: String(serving.carbs),
       fat: String(serving.fat)
     });
+  }
+
+  function saveCustomFood() {
+    if (!entry.food || !entry.calories) return;
+
+    const cleanName = entry.food.replace(/\s*\([^)]*\)\s*$/, "").trim();
+    const customFood = {
+      id: crypto.randomUUID(),
+      name: cleanName || entry.food,
+      servings: [{
+        label: "Saved serving",
+        calories: Number(entry.calories || 0),
+        protein: Number(entry.protein || 0),
+        carbs: Number(entry.carbs || 0),
+        fat: Number(entry.fat || 0)
+      }]
+    };
+
+    setCustomFoods([...customFoods, customFood]);
+    setFoodSearch(customFood.name);
+    setSelectedFoodId(`custom:${customFood.id}`);
+    setSelectedServingIndex(0);
+  }
+
+  function deleteCustomFood(id) {
+    setCustomFoods(customFoods.filter(food => food.id !== id));
+    if (selectedFoodId === `custom:${id}`) {
+      setSelectedFoodId("");
+      setSelectedServingIndex(0);
+    }
   }
 
   return (
@@ -497,11 +539,12 @@ function Nutrition({ foods, setFoods, targets, setTargets, totals, remaining }) 
           <select value={entry.meal} onChange={e => setEntry({...entry, meal:e.target.value})}>
             {meals.map(m => <option key={m}>{m}</option>)}
           </select>
+          <input placeholder="Search foods or servings" value={foodSearch} onChange={e => setFoodSearch(e.target.value)}/>
           <div className="libraryPicker">
             <label>Food library
               <select value={selectedFoodId} onChange={e => fillFromLibrary(e.target.value, 0)}>
                 <option value="">Manual entry</option>
-                {FOOD_LIBRARY.map(food => <option key={food.name} value={food.name}>{food.name}</option>)}
+                {filteredLibraryFoods.map(food => <option key={food.id} value={food.id}>{food.name} {food.source === "My Foods" ? "(My Foods)" : ""}</option>)}
               </select>
             </label>
             <label>Serving size
@@ -521,7 +564,10 @@ function Nutrition({ foods, setFoods, targets, setTargets, totals, remaining }) 
           <input placeholder="Protein g" inputMode="numeric" value={entry.protein} onChange={e => setEntry({...entry, protein:e.target.value})}/>
           <input placeholder="Carbs g" inputMode="numeric" value={entry.carbs} onChange={e => setEntry({...entry, carbs:e.target.value})}/>
           <input placeholder="Fat g" inputMode="numeric" value={entry.fat} onChange={e => setEntry({...entry, fat:e.target.value})}/>
-          <button onClick={addFood}><Plus size={16}/>Add Food</button>
+          <div className="buttonRow">
+            <button onClick={addFood}><Plus size={16}/>Add Food</button>
+            <button type="button" className="secondary" onClick={saveCustomFood}>Save to My Foods</button>
+          </div>
         </div>
       </div>
 
@@ -531,6 +577,24 @@ function Nutrition({ foods, setFoods, targets, setTargets, totals, remaining }) 
           {mealRecommendations(remaining).map((r, i) => <li key={i}>{r}</li>)}
         </ul>
       </div>
+
+      {customFoods.length > 0 && (
+        <div className="card">
+          <h3>My Foods</h3>
+          {customFoods.map(food => {
+            const serving = food.servings[0];
+            return (
+              <div className="food" key={food.id}>
+                <div>
+                  <b>{food.name}</b>
+                  <small>{serving.calories} cal | P {serving.protein}g | C {serving.carbs}g | F {serving.fat}g</small>
+                </div>
+                <button className="icon" onClick={() => deleteCustomFood(food.id)}><Trash2 size={16}/></button>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       <div className="card">
         <h3>Today’s Food</h3>
