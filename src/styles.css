@@ -11,7 +11,7 @@ body {
   min-height: 100vh;
   background:
     linear-gradient(rgba(15, 23, 42, .34), rgba(15, 23, 42, .78)),
-    url("/icon-512.png") center top / max(1280px, 116vw) no-repeat fixed,
+    url("/icon-512.png") center center / min(96vw, 96vh) no-repeat fixed,
     radial-gradient(circle at top, rgba(56,189,248,.16), transparent 38%),
     #0f172a;
   background-attachment: fixed, fixed, fixed, scroll;
@@ -252,6 +252,15 @@ li {
 }
 
 @media (max-width: 520px) {
+  body {
+    background:
+      linear-gradient(rgba(15, 23, 42, .34), rgba(15, 23, 42, .8)),
+      url("/icon-512.png") center center / min(118vw, 84vh) no-repeat fixed,
+      radial-gradient(circle at top, rgba(56,189,248,.16), transparent 38%),
+      #0f172a;
+    background-attachment: fixed, fixed, fixed, scroll;
+  }
+
   .logrow {
     grid-template-columns: 1fr 1fr;
   }
