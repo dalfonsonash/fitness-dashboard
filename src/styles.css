@@ -22,23 +22,33 @@ body::before {
     #0f172a;
 }
 
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(rgba(15, 23, 42, .2), rgba(15, 23, 42, .5)),
-    url("/icon-512.png") center 118px / min(92vw, 680px) no-repeat;
-  opacity: .46;
-  pointer-events: none;
-}
-
 .app {
   max-width: 820px;
   margin: 0 auto;
   padding-bottom: 92px;
   position: relative;
+  isolation: isolate;
+}
+
+.app::before {
+  content: "";
+  position: fixed;
+  top: 118px;
+  left: 50%;
+  width: min(92vw, 680px);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  z-index: 0;
+  background: url("/icon-512.png") center / contain no-repeat;
+  opacity: .34;
+  pointer-events: none;
+}
+
+header,
+main,
+nav {
+  position: relative;
+  z-index: 1;
 }
 
 header {
@@ -60,7 +70,7 @@ header p {
 }
 
 .card {
-  background: rgba(17, 24, 39, .82);
+  background: rgba(17, 24, 39, .78);
   border: 1px solid rgba(148, 163, 184, .18);
   border-radius: 18px;
   padding: 16px;
@@ -70,7 +80,7 @@ header p {
 }
 
 .hero {
-  background: linear-gradient(135deg, rgba(14,165,233,.3), rgba(17,24,39,.84));
+  background: linear-gradient(135deg, rgba(14,165,233,.3), rgba(17,24,39,.78));
 }
 
 .warning {
@@ -94,7 +104,7 @@ h3 { margin-bottom: 8px; }
 }
 
 .metric {
-  background: rgba(15, 23, 42, .82);
+  background: rgba(15, 23, 42, .76);
   border-radius: 14px;
   padding: 12px;
 }
